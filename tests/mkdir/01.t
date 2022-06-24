@@ -14,7 +14,7 @@ n1=`namegen`
 
 expect 0 mkdir ${n0} 0755
 # regular passed
-# do not support fifo,block,char mknod function not implemented
+# do not support fifo,block,char,socket mknod function not implemented
 for type in regular fifo block char socket; do
 	create_file ${type} ${n0}/${n1}
 	expect ENOTDIR mkdir ${n0}/${n1}/test 0755
