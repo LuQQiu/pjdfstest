@@ -11,6 +11,7 @@ echo "1..21"
 
 n0=`namegen`
 
+# regular passed
 for type in regular dir fifo block char socket symlink; do
 	create_file ${type} ${n0}
 	expect EEXIST mkdir ${n0} 0755

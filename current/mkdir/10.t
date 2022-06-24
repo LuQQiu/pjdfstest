@@ -11,7 +11,7 @@ echo "1..21"
 
 n0=`namegen`
 
-for type in regular; do
+for type in regular dir fifo; do
 	create_file ${type} ${n0}
 	expect EEXIST mkdir ${n0} 0755
 	if [ "${type}" = "dir" ]; then

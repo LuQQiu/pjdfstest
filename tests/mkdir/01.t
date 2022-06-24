@@ -13,6 +13,7 @@ n0=`namegen`
 n1=`namegen`
 
 expect 0 mkdir ${n0} 0755
+# regular passed
 for type in regular fifo block char socket; do
 	create_file ${type} ${n0}/${n1}
 	expect ENOTDIR mkdir ${n0}/${n1}/test 0755
