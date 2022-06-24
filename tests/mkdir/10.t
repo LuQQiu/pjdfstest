@@ -13,6 +13,7 @@ n0=`namegen`
 
 # regular dir passed
 # do not support fifo,block,char,socket mknod function not implemented
+# do not support symlink because of symlink issue
 for type in regular dir fifo block char socket symlink; do
 	create_file ${type} ${n0}
 	expect EEXIST mkdir ${n0} 0755

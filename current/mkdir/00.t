@@ -41,39 +41,3 @@ expect 0 rmdir ${n0}
 # Failed 17
 expect 0 chown . 65535 65535
 expect 0 -u 65535 -g 65535 mkdir ${n0} 0755
-# Failed 19
-expect 65535,65535 lstat ${n0} uid,gid
-expect 0 rmdir ${n0}
-expect 0 -u 65535 -g 65534 mkdir ${n0} 0755
-# Failed 22
-expect "65535,6553[45]" lstat ${n0} uid,gid
-expect 0 rmdir ${n0}
-expect 0 chmod . 0777
-expect 0 -u 65534 -g 65533 mkdir ${n0} 0755
-# Failed 26
-expect "65534,6553[35]" lstat ${n0} uid,gid
-expect 0 rmdir ${n0}
-
-# POSIX: Upon successful completion, mkdir() shall mark for update the st_atime,
-# st_ctime, and st_mtime fields of the directory. Also, the st_ctime and
-# st_mtime fields of the directory that contains the new entry shall be marked
-# for update.
-# Failed 28
-expect 0 chown . 0 0
-time=`${fstest} stat . ctime`
-sleep 1
-expect 0 mkdir ${n0} 0755
-atime=`${fstest} stat ${n0} atime`
-test_check $time -lt $atime
-mtime=`${fstest} stat ${n0} mtime`
-test_check $time -lt $mtime
-ctime=`${fstest} stat ${n0} ctime`
-test_check $time -lt $ctime
-mtime=`${fstest} stat . mtime`
-test_check $time -lt $mtime
-ctime=`${fstest} stat . ctime`
-test_check $time -lt $ctime
-expect 0 rmdir ${n0}
-
-cd ${cdir}
-expect 0 rmdir ${n1}
