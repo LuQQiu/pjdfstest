@@ -38,7 +38,10 @@ expect 0 rmdir ${n0}
 # POSIX: The directory's user ID shall be set to the process' effective user ID.
 # The directory's group ID shall be set to the group ID of the parent directory
 # or to the effective group ID of the process.
-# Failed 17
+# Failed 17 
+# Fuse: require able to translate uid/gid to user name and group name
+# Alluxio: require user belong to group
+# Linux: can set non-existing uid/gid to file, ls directly show the uid and gid, does not require user belong to group
 expect 0 chown . 65535 65535
 expect 0 -u 65535 -g 65535 mkdir ${n0} 0755
 # Failed 19
