@@ -23,6 +23,7 @@ expect 0 -u 65534 -g 65534 mkdir ${n1}/${n2} 0755
 expect 0 -u 65534 -g 65534 rmdir ${n1}/${n2}
 expect 0 chmod ${n1} 0555
 # FAILED 7
+# 555 permission should not allow the creation of subdir or file
 expect EACCES -u 65534 -g 65534 mkdir ${n1}/${n2} 0755
 expect 0 chmod ${n1} 0755
 # FAILED 9

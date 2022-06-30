@@ -12,7 +12,7 @@ echo "1..6"
 n0=`namegen`
 n1=`namegen`
 
-# ALL FAILED
+# ALL FAILED alluxio does not support symlink
 expect 0 symlink ${n0} ${n1}
 expect 0 symlink ${n1} ${n0}
 expect ELOOP mkdir ${n0}/test 0755
