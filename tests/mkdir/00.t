@@ -45,6 +45,7 @@ expect 0 rmdir ${n0}
 expect 0 chown . 65535 65535
 # Need to support mkdir based on uid gid
 # Uid/gid may not exist in system and uid may not belong to gid
+# Failed 18 Fuse opendir releasedir, operation not permitted
 expect 0 -u 65535 -g 65535 mkdir ${n0} 0755
 # Failed 19
 expect 65535,65535 lstat ${n0} uid,gid
