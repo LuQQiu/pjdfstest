@@ -9,11 +9,26 @@ dir=`dirname $0`
 
 echo "1..12"
 
-n0="pjdfstest_fab65010e0195efd3ce5aef823fb6b6e"
-n1="pjdfstest_016eac2eaf07ac1680233bf83eb863fb"
-n2="pjdfstest_1224cf5c79e0949ca4f04744e68e7c46"
+n0=`namegen`
+n1=`namegen`
+n2=`namegen`
 
+expect 0 mkdir ${n0} 0755
 cdir=`pwd`
 cd ${n0}
+expect 0 mkdir ${n1} 0755
 # FAILED 3
+expect 0 chown ${n1} 65534 65534
 expect 0 -u 65534 -g 65534 mkdir ${n1}/${n2} 0755
+expect 0 -u 65534 -g 65534 rmdir ${n1}/${n2}
+expect 0 chmod ${n1} 0555
+# FAILED 7
+# 555 permission should not allow the creation of subdir or file
+expect EACCES -u 65534 -g 65534 mkdir ${n1}/${n2} 0755
+expect 0 chmod ${n1} 0755
+# FAILED 9
+expect 0 -u 65534 -g 65534 mkdir ${n1}/${n2} 0755
+expect 0 -u 65534 -g 65534 rmdir ${n1}/${n2}
+expect 0 rmdir ${n1}
+cd ${cdir}
+expect 0 rmdir ${n0}

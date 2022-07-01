@@ -40,8 +40,23 @@ expect()
 {
 	e="${1}"
 	shift
-	echo "${fstest} $*"
-	${fstest} $*
+	r=`${fstest} $* 2>/dev/null | tail -1`
+	echo "${r}" | ${GREP} -Eq '^'${e}'$'
+	if [ $? -eq 0 ]; then
+		if [ -z "${todomsg}" ]; then
+			echo "ok ${ntest}"
+		else
+			echo "ok ${ntest} # TODO ${todomsg}"
+		fi
+	else
+		if [ -z "${todomsg}" ]; then
+			echo "not ok ${ntest} - tried '$*', expected ${e}, got ${r}"
+		else
+			echo "not ok ${ntest} # TODO ${todomsg}"
+		fi
+	fi
+	todomsg=""
+	ntest=$((ntest+1))
 }
 
 jexpect()
