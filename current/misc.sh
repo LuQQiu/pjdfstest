@@ -51,6 +51,8 @@ expect()
 	else
 		if [ -z "${todomsg}" ]; then
 			echo "not ok ${ntest} - tried '$*', expected ${e}, got ${r}"
+			echo "${fstest} $*"
+			${fstest} $*
 		else
 			echo "not ok ${ntest} # TODO ${todomsg}"
 		fi
