@@ -19,36 +19,8 @@ cdir=`pwd`
 cd ${n0}
 expect 0 mkdir ${n1} 0755
 expect 0 chown ${n1} 65534 65534
-for type in regular dir fifo block char socket symlink; do
-	if [ "${type}" != "symlink" ]; then
-		create_file ${type} ${n1}/${n2} 65534 65534
-		expect EPERM -u 65534 -g 65534 chown ${n1}/${n2} 65533 65533
-		expect EPERM -u 65533 -g 65533 chown ${n1}/${n2} 65534 65534
-		expect EPERM -u 65533 -g 65533 chown ${n1}/${n2} 65533 65533
-		expect EPERM -u 65534 -g 65534 -- chown ${n1}/${n2} -1 65533
-		expect 0 -u 65534 -g 65534 symlink ${n2} ${n1}/${n3}
-		expect EPERM -u 65534 -g 65534 chown ${n1}/${n3} 65533 65533
-		expect EPERM -u 65533 -g 65533 chown ${n1}/${n3} 65534 65534
-		expect EPERM -u 65533 -g 65533 chown ${n1}/${n3} 65533 65533
-		expect EPERM -u 65534 -g 65534 -- chown ${n1}/${n3} -1 65533
-		expect 0 unlink ${n1}/${n3}
-		if [ "${type}" = "dir" ]; then
-			expect 0 rmdir ${n1}/${n2}
-		else
-			expect 0 unlink ${n1}/${n2}
-		fi
-	fi
+for type in regular; do
 	create_file ${type} ${n1}/${n2} 65534 65534
-	expect EPERM -u 65534 -g 65534 lchown ${n1}/${n2} 65533 65533
-	expect EPERM -u 65533 -g 65533 lchown ${n1}/${n2} 65534 65534
-	expect EPERM -u 65533 -g 65533 lchown ${n1}/${n2} 65533 65533
-	expect EPERM -u 65534 -g 65534 -- lchown ${n1}/${n2} -1 65533
-	if [ "${type}" = "dir" ]; then
-		expect 0 rmdir ${n1}/${n2}
-	else
-		expect 0 unlink ${n1}/${n2}
-	fi
+	expect EPERM -u 65534 -g 65534 chown ${n1}/${n2} 65533 65533
 done
-expect 0 rmdir ${n1}
-cd ${cdir}
-expect 0 rmdir ${n0}
+
