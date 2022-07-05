@@ -27,6 +27,7 @@ expect 0 chown ${n1} 65534 65534
 expect 0 -u 65534 -g 65534 create ${n1}/${n2} 0644
 expect 0 -u 65534 -g 65534 chmod ${n1}/${n2} 0642
 expect 0642 stat ${n1}/${n2} mode
+# FAILED
 expect EPERM -u 65533 -g 65533 chmod ${n1}/${n2} 0641
 expect 0642 stat ${n1}/${n2} mode
 expect 0 chown ${n1}/${n2} 0 0

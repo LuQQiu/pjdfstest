@@ -26,6 +26,7 @@ expect 0 -u 65534 -g 65534 create ${n1}/${n2} 0644
 expect 0 -u 65534 -g 65534 chmod ${n1}/${n2} 0642
 expect 0642 -u 65534 -g 65534 stat ${n1}/${n2} mode
 expect 0 chmod ${n1} 0644
+# FAILED, permission check
 expect EACCES -u 65534 -g 65534 chmod ${n1}/${n2} 0620
 expect 0 chmod ${n1} 0755
 expect 0 -u 65534 -g 65534 chmod ${n1}/${n2} 0420
