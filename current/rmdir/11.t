@@ -21,8 +21,29 @@ expect 0 mkdir ${n0} 0755
 expect 0 chown ${n0} 65534 65534
 expect 0 chmod ${n0} 01777
 
+# User owns both: the sticky directory and the directory to be removed.
+expect 0 -u 65534 -g 65534 mkdir ${n0}/${n1} 0755
+expect dir,65534,65534 lstat ${n0}/${n1} type,uid,gid
+expect 0 -u 65534 -g 65534 rmdir ${n0}/${n1}
+expect ENOENT lstat ${n0}/${n1} type
+# User owns the directory to be removed, but doesn't own the sticky directory.
+for id in 0 65533; do
+	expect 0 chown ${n0} ${id} ${id}
+	create_file dir ${n0}/${n1} 65534 65534
+	expect dir,65534,65534 lstat ${n0}/${n1} type,uid,gid
+	expect 0 -u 65534 -g 65534 rmdir ${n0}/${n1}
+	expect ENOENT lstat ${n0}/${n1} type
+done
+# User owns the sticky directory, but doesn't own the directory to be removed.
+expect 0 chown ${n0} 65534 65534
+for id in 0 65533; do
+	create_file dir ${n0}/${n1} ${id} ${id}
+	expect dir,${id},${id} lstat ${n0}/${n1} type,uid,gid
+	expect 0 -u 65534 -g 65534 rmdir ${n0}/${n1}
+	expect ENOENT lstat ${n0}/${n1} type
+done
 # User doesn't own the sticky directory nor the directory to be removed.
-for id in 65533; do
+for id in 0 65533; do
 	expect 0 chown ${n0} ${id} ${id}
 	create_file dir ${n0}/${n1} ${id} ${id}
 	expect dir,${id},${id} lstat ${n0}/${n1} type,uid,gid
