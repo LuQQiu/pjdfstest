@@ -11,16 +11,9 @@ echo "1..2"
 
 n0=`namegen`
 n1=`namegen`
-n2=`namegen`
 
-expect 0 mkdir ${n0} 0755
+expect 0 mkdir ${n1} 0755
 cdir=`pwd`
-cd ${n0}
+cd ${n1}
 
-# rename file to empty dir
-expect 0 create ${n1} 0644
-expect 0 mkdir ${n2} 0755
-expect EISDIR rename ${n1} ${n2}
-
-# rename dir to file
-expect 0 rename ${n2} ${n1}
+expect 1 open ${n0} O_RDWR,O_CREAT,O_EXCL 0400 : write 0 x : fstat 0 size
