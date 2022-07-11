@@ -7,13 +7,17 @@ desc="open opens (and eventually creates) a file"
 dir=`dirname $0`
 . ${dir}/../misc.sh
 
-echo "1..47"
+echo "1..2"
 
 n0=`namegen`
 n1=`namegen`
+n2=`namegen`
 
-expect 0 mkdir ${n1} 0755
+expect 0 mkdir ${n0} 0755
 cdir=`pwd`
 cd ${n1}
 
-expect 1 open ${n0} O_RDWR,O_CREAT,O_EXCL 0400 : write 0 x : fstat 0 size
+# rename file to empty dir
+expect 0 create ${n1} 0644
+expect 0 mkdir ${n2} 0755
+expect 0 rename ${n1} ${n2}
