@@ -17,6 +17,7 @@ cdir=`pwd`
 cd ${n1}
 
 expect 0 create ${n0} 0644
+expect 567 lstat ${n0} size
 expect 0 truncate ${n0} 1234567
 expect 1234567 lstat ${n0} size
 expect 0 truncate ${n0} 567
