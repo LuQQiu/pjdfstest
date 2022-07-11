@@ -20,4 +20,7 @@ cd ${n0}
 # rename file to empty dir
 expect 0 create ${n1} 0644
 expect 0 mkdir ${n2} 0755
-expect 0 rename ${n1} ${n2}
+expect EISDIR rename ${n1} ${n2}
+
+# rename dir to file
+expect 0 rename ${n2} ${n1}
