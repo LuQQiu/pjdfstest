@@ -23,18 +23,27 @@ expect 0 mkdir ${n0} 0755
 cdir=`pwd`
 cd ${n0}
 # no permission
-expect 1 open ${n1} O_RDWR,O_CREAT,O_EXCL 0000 : write 0 x : fstat 0 size
+expect 0 create ${n1} 0000
+expect 0 lstat ${n1} size
 # execute permission only
-expect 1 open ${n2} O_RDWR,O_CREAT,O_EXCL 0100 : write 0 x : fstat 0 size
+expect 0 create ${n2} 0100
+expect 0 lstat ${n2} size
 # write permission only
-expect 1 open ${n3} O_RDWR,O_CREAT,O_EXCL 0200 : write 0 x : fstat 0 size
+expect 0 create ${n3} 0200
+expect 0 lstat ${n3} size
 # write and execute permissions
-expect 1 open ${n4} O_RDWR,O_CREAT,O_EXCL 0300 : write 0 x : fstat 0 size
+expect 0 create ${n4} 0300
+expect 0 lstat ${n4} size
+
 # read permission only, fuse failed EIO
-expect 1 open ${n5} O_RDWR,O_CREAT,O_EXCL 0400 : write 0 x : fstat 0 size
+expect 0 create ${n5} 0400
+expect 0 lstat ${n5} size
 # read and execute permission
-expect 1 open ${n6} O_RDWR,O_CREAT,O_EXCL 0500 : write 0 x : fstat 0 size
+expect 0 create ${n6} 0500
+expect 0 lstat ${n6} size
 # read and write permission
-expect 1 open ${n7} O_RDWR,O_CREAT,O_EXCL 0600 : write 0 x : fstat 0 size
+expect 0 create ${n7} 0600
+expect 0 lstat ${n7} size
 # read, write, and execute permission
-expect 1 open ${n8} O_RDWR,O_CREAT,O_EXCL 0700 : write 0 x : fstat 0 size
+expect 0 create ${n8} 0700
+expect 0 lstat ${n8} size
