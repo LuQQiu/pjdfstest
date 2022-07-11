@@ -15,7 +15,7 @@ n2=`namegen`
 
 expect 0 mkdir ${n0} 0755
 cdir=`pwd`
-cd ${n1}
+cd ${n0}
 
 # rename file to empty dir
 expect 0 create ${n1} 0644
